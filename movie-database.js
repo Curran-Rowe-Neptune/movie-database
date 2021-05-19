@@ -42,6 +42,7 @@ var movieData = [];
 
 
 $('#sniff').click(function(){
+    movieData = [];
         fetch("https://www.omdbapi.com/?t=" + $('#movieSearch').val() + "&apikey=" + OMDb_API_TOKEN + "")
             .then(resp => resp.json())
             .then(data => movieData.push(data));
