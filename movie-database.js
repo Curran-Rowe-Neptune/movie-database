@@ -12,24 +12,16 @@ function getMovies(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
         .then(resp => resp.json())
         .then(movies => {
-            let htmlStr = "";
+
             for(let movie of movies){
 
-                htmlStr += `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><div class="rate">
-    <input type="radio" id="star5" name="rate" value="5" />
-    <label for="star5" title="text">5 stars</label>
-    <input type="radio" id="star4" name="rate" value="4" />
-    <label for="star4" title="text">4 stars</label>
-    <input type="radio" id="star3" name="rate" value="3" />
-    <label for="star3" title="text">3 stars</label>
-    <input type="radio" id="star2" name="rate" value="2" />
-    <label for="star2" title="text">2 stars</label>
-    <input type="radio" id="star1" name="rate" value="1" />
-    <label for="star1" title="text">1 star</label>
-  </div><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p></div>`;
-                movieTitle.push(movie.title);
-        }
-            $('#container').html(htmlStr);
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}">Delete</button></div>`;
+                // movieTitle.push(movie.title);
+                $('#container').append(htmlStr);
+
+                // $(`#stars${movie.rating}-${movie.id}`).attr('checked', true);
+            }
+            dropDown(movies);
         });
 }
 // Main Display
@@ -100,20 +92,21 @@ let postOptions = {
 }
 $('#updateDB').click(function(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies/", postOptions)
-        // .then(resp => resp.json()) //Unneeded
         .then(getMovies)
         modal.style.display = 'none';
 });
 
 }
 // Dropdown Menu, WIP
-function dropDown() {
-    for (var p = 0; p < movieTitle.length; p++){
-        var HTML = `<option>${movieTitle[p]}</option>`;
+function dropDown(x) {
+    for (var p = 0; p < x.length; p++){
+        var HTML;
+        HTML += `<option>${x[p].title.toUpperCase()}</option>`;
 }
-    document.getElementById('movieSelector').innerHTML = HTML;
+    document.getElementById('selector').innerHTML =  `<label for='movieSelector'></label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
+    // document.getElementById('movieSelector').innerHTML = HTML;
 }
-dropDown();
+
 // Edit Movies
 
 // let editor = {
@@ -129,3 +122,17 @@ dropDown();
 // }
 //
 // fetch("https://jungle-enshrined-couch.glitch.me/books/7", patchOptions).then(getBooks);
+
+
+// <div id="rate-${movie.id}" className="rate">
+//     <input type="radio" id="star5-${movie.id}" name="rate" value="5"/>
+//     <label htmlFor="star5" title="text">5 stars</label>
+//     <input type="radio" id="star4-${movie.id}" name="rate" value="4"/>
+//     <label htmlFor="star4" title="text">4 stars</label>
+//     <input type="radio" id="star3-${movie.id}" name="rate" value="3"/>
+//     <label htmlFor="star3" title="text">3 stars</label>
+//     <input type="radio" id="star2-${movie.id}" name="rate" value="2"/>
+//     <label htmlFor="star2" title="text">2 stars</label>
+//     <input type="radio" id="star1-${movie.id}" name="rate" value="1"/>
+//     <label htmlFor="star1" title="text">1 star</label>
+// </div>

@@ -15,6 +15,9 @@ p{
 #container{
     justify-content: space-evenly;
 }
+i{
+    color: cornsilk;
+}
 
 .modal {
     display: none; /* Hidden by default */
