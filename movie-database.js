@@ -4,7 +4,7 @@ let getOptions = {
         'Content-Type': 'application/json',
     }
 };
-// Ajax request
+// Ajax request, gives each movie a container, and contains the delete button
 
 function getMovies(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
@@ -13,19 +13,9 @@ function getMovies(){
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}" onClick="idFinder(this.id)">Delete</button></div>`;
                 $('#container').append(htmlStr);
-
             }
-            let deleteOptions = {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            $(`#deleteMovie-${movie.id}`).click(function () {
-                fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${movie.id}, deleteOptions`).then(getMovies)
-            })
             dropDown(movies);
         });
 }
@@ -72,7 +62,7 @@ var span = document.getElementsByClassName('close')[0];
     $('#movieSearch').val('');
     // movieData = [];
 
-        // POST
+        // POST, add new movie
 
 let newMovie = {
     'title': movieData[0].Title,
@@ -99,7 +89,7 @@ $('#updateDB').click(function(){
 });
 
 }
-// Dropdown Menu, WIP
+// Dropdown Menu, edit movie WIP
 
 function dropDown(x) {
     for (var p = 0; p < x.length; p++){
@@ -109,51 +99,7 @@ function dropDown(x) {
     document.getElementById('selector').innerHTML =  `<label for='movieSelector'></label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
 }
 
-// Edit Movies
-
-// let editor = {
-
-// }
-
-// let patchOptions = {
-//     method: 'PATCH',
-//     headers: {
-//         'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(patchThis)
-// }
-//
-// fetch("https://jungle-enshrined-couch.glitch.me/books/7", patchOptions).then(getBooks);
-
-
-// DELETE
-
-//     $('')
-// fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
-//     .then(getMovies);
-// $("#makinChanges").click(() => {
-//     fetch('https://jungle-enshrined-couch.glitch.me/books')
-//         // .then(resp => resp.json())
-//         .then(movies => {
-//             let uniqueBooks = [];
-//             for (let movie of movies){
-//                 if (uniqueBooks.length === 0){
-//                     uniqueBooks.push(movie);
-//                     continue;
-//                 }
-//                 for (let existingBook of uniqueBooks) {
-//                     if (movie.title !== existingBook.title && book.author.firstName !== existingBook.author.firstName && book.author.lastName !== existingBook.author.lastName) {
-//                         uniqueBooks.push(book);
-//                     } else {
-//                         fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
-//                             .then(getMovies);
-//                     }
-//                 }
-//             }
-//         })
-// });
-
-
+// Loading function
 
 function downLoad(){
     if (document.all){
@@ -166,4 +112,31 @@ function downLoad(){
 }
 $(document).ready(function(){
     $('#loading').toggleClass('hidden');
+});
+
+
+ // Delete button request
+var buttonID;
+function idFinder(x){
+    var buttonSplitter = buttonID.split('-')
+    var number = buttonSplitter[1]
+    return buttonID = x;
+}
+
+let deleteOptions = {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
+
+// $(`#${buttonID}`).click(function() {
+//     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
+// });
+
+
+ $(`#${idFinder}`).click(function(){
+     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
+     // return document.getElementsByTagName("button")
+     // return $(this).attr('id')
 });
