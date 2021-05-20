@@ -7,13 +7,14 @@ let getOptions = {
 // Ajax request, gives each movie a container, and contains the delete button
 
 function getMovies(){
+    document.getElementById('container').innerHTML = '';
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
         .then(resp => resp.json())
         .then(movies => {
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}" onClick="idFinder(this.id)">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}" onmouseenter="idFinder(this.id)">Delete</button></div>`;
                 $('#container').append(htmlStr);
             }
             dropDown(movies);
@@ -37,6 +38,45 @@ $('#sniff').click(function(){
 });
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName('close')[0];
+
+$('#selector').on('change', function(){
+    modal.style.display = 'block';
+    span.onclick = function(){
+        modal.style.display = 'none';
+    }
+    window.onclick = function() {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    var html = "<div>";
+    html += "<h1>Update your movie.</h1>";
+    html += "<form>";
+    html += "<label for='newTitle'>Edit/Add Title:</label>"
+    html += "<input id='newTitle' type='text' placeholder='Rename that movie'>";
+    html += "<label for='newRating'>Edit/Add Rating</label>"
+    html += "<input id='newRating' type='text' placeholder='1 to 5 Stars'>";
+    html += "<label for='newRated'>Edit/Add Rating</label>"
+    html += "<input id='newRated' type='text' placeholder='R, PG-13, ect... '>";
+    html += "<label for='newRuntime'>Edit/Add Runtime</label>"
+    html += "<input type='text' id='newRuntime' placeholder='Total minutes'>";
+    html += "<label for='newCast'>Edit/Add Actors</label>"
+    html += "<input id='newCast' type='text' placeholder='First and Last Name'>";
+    html += "<label for='newPlot'>Edit/Add Plot</label>"
+    html += "<input type='text' id='newPlot' placeholder='What your take is'>";
+    html += "<label for='newDirector'>Edit/Add Director</label>"
+    html += "<input type='text' id='newDirector' placeholder='First and Last name'>";
+    html += "<label for='newGenre'>Edit/Add Genre</label>"
+    html += "<input type='text' id='newGenre' placeholder='Your Genre'>";
+    html += "<label for='newYear'>Edit/Add Year</label>"
+    html += "<input type='text' id='newYear' placeholder='Enter a Year'>";
+    html += "</form>"
+    html += "</div>";
+    $('#sniff').click(function (){
+    $('#addMovie').html(html);
+    });
+});
+
     function getData(){
     modal.style.display = "block";
     span.onclick = function (){
@@ -116,11 +156,13 @@ $(document).ready(function(){
 
 
  // Delete button request
-var buttonID;
+var buttonID = "";
+var number;
 function idFinder(x){
-    var buttonSplitter = buttonID.split('-')
-    var number = buttonSplitter[1]
-    return buttonID = x;
+    buttonID = x;
+    var buttonSplitter = buttonID.split('-');
+    number = buttonSplitter[1].toString();
+
 }
 
 let deleteOptions = {
@@ -135,8 +177,8 @@ let deleteOptions = {
 // });
 
 
- $(`#${idFinder}`).click(function(){
-     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
+ $(`#${buttonID}`).click(function(){
+     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}`, deleteOptions).then(getMovies)
      // return document.getElementsByTagName("button")
      // return $(this).attr('id')
 });
