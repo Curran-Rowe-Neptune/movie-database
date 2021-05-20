@@ -2,6 +2,20 @@ img{
     width: 200px;
     height: 300px;
 }
+button{
+    border-radius: 5px;
+    padding: 3px;
+}
+#loadIMG{
+    width: 100px;
+    height: 100px;
+    position: center;
+}
+#loading{
+    position: center;
+    margin: auto;
+}
+
 p{
     width: 250px;
     text-wrap: normal;
@@ -61,5 +75,22 @@ i{
     padding: 0;
 }
 
-.layer1_class { position: absolute; z-index: 1; top: 100px; left: 0px; visibility: visible; }
-.layer2_class { position: absolute; z-index: 2; top: 10px; left: 10px; visibility: hidden }
+.layer1_class {
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    visibility: visible;
+}
+.layer2_class {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+    visibility: hidden
+}
+.hidden{
+    display: none;
+}

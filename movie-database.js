@@ -1,5 +1,3 @@
-
-
 let getOptions = {
     method: 'GET',
     headers: {
@@ -19,15 +17,21 @@ function getMovies(){
                 $('#container').append(htmlStr);
 
             }
+            let deleteOptions = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            $(`#deleteMovie-${movie.id}`).click(function () {
+                fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${movie.id}, deleteOptions`).then(getMovies)
+            })
             dropDown(movies);
         });
 }
 // Main Display
 
 getMovies();
-var radioBtn = '';
-radioBtn.checked = true;
-var movieData = [];
 
 
 // Search Bar
@@ -103,7 +107,6 @@ function dropDown(x) {
         HTML += `<option>${x[p].title.toUpperCase()}</option>`;
 }
     document.getElementById('selector').innerHTML =  `<label for='movieSelector'></label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
-    // document.getElementById('movieSelector').innerHTML = HTML;
 }
 
 // Edit Movies
@@ -125,36 +128,30 @@ function dropDown(x) {
 
 // DELETE
 
-let deletedOptions = {
-    method: 'DELETE',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-};
-    $('')
-fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
-    .then(getMovies);
-$("#makinChanges").click(() => {
-    fetch('https://jungle-enshrined-couch.glitch.me/books')
-        // .then(resp => resp.json())
-        .then(movies => {
-            let uniqueBooks = [];
-            for (let movie of movies){
-                if (uniqueBooks.length === 0){
-                    uniqueBooks.push(movie);
-                    continue;
-                }
-                for (let existingBook of uniqueBooks) {
-                    if (movie.title !== existingBook.title && book.author.firstName !== existingBook.author.firstName && book.author.lastName !== existingBook.author.lastName) {
-                        uniqueBooks.push(book);
-                    } else {
-                        fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
-                            .then(getMovies);
-                    }
-                }
-            }
-        })
-});
+//     $('')
+// fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
+//     .then(getMovies);
+// $("#makinChanges").click(() => {
+//     fetch('https://jungle-enshrined-couch.glitch.me/books')
+//         // .then(resp => resp.json())
+//         .then(movies => {
+//             let uniqueBooks = [];
+//             for (let movie of movies){
+//                 if (uniqueBooks.length === 0){
+//                     uniqueBooks.push(movie);
+//                     continue;
+//                 }
+//                 for (let existingBook of uniqueBooks) {
+//                     if (movie.title !== existingBook.title && book.author.firstName !== existingBook.author.firstName && book.author.lastName !== existingBook.author.lastName) {
+//                         uniqueBooks.push(book);
+//                     } else {
+//                         fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
+//                             .then(getMovies);
+//                     }
+//                 }
+//             }
+//         })
+// });
 
 
 
@@ -167,3 +164,6 @@ function downLoad(){
         node = document.getElementById("layer2").style.visibility='visible';
     }
 }
+$(document).ready(function(){
+    $('#loading').toggleClass('hidden');
+});
