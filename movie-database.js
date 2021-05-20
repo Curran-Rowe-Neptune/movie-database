@@ -98,6 +98,7 @@ $('#updateDB').click(function(){
 
 }
 // Dropdown Menu, WIP
+
 function dropDown(x) {
     for (var p = 0; p < x.length; p++){
         var HTML;
@@ -136,3 +137,36 @@ function dropDown(x) {
 //     <input type="radio" id="star1-${movie.id}" name="rate" value="1"/>
 //     <label htmlFor="star1" title="text">1 star</label>
 // </div>
+
+// DELETE
+
+let deletedOptions = {
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+};
+
+$("#makinChanges").click(() => {
+    fetch('https://jungle-enshrined-couch.glitch.me/books')
+        // .then(resp => resp.json())
+        .then(movies => {
+            let uniqueBooks = [];
+            for (let movie of movies){
+                if (uniqueBooks.length === 0){
+                    uniqueBooks.push(movie);
+                    continue;
+                }
+                for (let existingBook of uniqueBooks) {
+                    if (movie.title !== existingBook.title && book.author.firstName !== existingBook.author.firstName && book.author.lastName !== existingBook.author.lastName) {
+                        uniqueBooks.push(book);
+                    } else {
+                        fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
+                            .then(getMovies);
+                    }
+                }
+            }
+        })
+});
+
+fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
