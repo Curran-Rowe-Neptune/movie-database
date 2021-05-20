@@ -7,7 +7,7 @@ let getOptions = {
     }
 };
 // Ajax request
-var movieTitle = [];
+
 function getMovies(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
         .then(resp => resp.json())
@@ -16,10 +16,8 @@ function getMovies(){
             for(let movie of movies){
 
                let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}">Delete</button></div>`;
-                // movieTitle.push(movie.title);
                 $('#container').append(htmlStr);
 
-                // $(`#stars${movie.rating}-${movie.id}`).attr('checked', true);
             }
             dropDown(movies);
         });
@@ -125,19 +123,6 @@ function dropDown(x) {
 // fetch("https://jungle-enshrined-couch.glitch.me/books/7", patchOptions).then(getBooks);
 
 
-// <div id="rate-${movie.id}" className="rate">
-//     <input type="radio" id="star5-${movie.id}" name="rate" value="5"/>
-//     <label htmlFor="star5" title="text">5 stars</label>
-//     <input type="radio" id="star4-${movie.id}" name="rate" value="4"/>
-//     <label htmlFor="star4" title="text">4 stars</label>
-//     <input type="radio" id="star3-${movie.id}" name="rate" value="3"/>
-//     <label htmlFor="star3" title="text">3 stars</label>
-//     <input type="radio" id="star2-${movie.id}" name="rate" value="2"/>
-//     <label htmlFor="star2" title="text">2 stars</label>
-//     <input type="radio" id="star1-${movie.id}" name="rate" value="1"/>
-//     <label htmlFor="star1" title="text">1 star</label>
-// </div>
-
 // DELETE
 
 let deletedOptions = {
@@ -146,7 +131,9 @@ let deletedOptions = {
         'Content-Type': 'application/json'
     },
 };
-
+    $('')
+fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
+    .then(getMovies);
 $("#makinChanges").click(() => {
     fetch('https://jungle-enshrined-couch.glitch.me/books')
         // .then(resp => resp.json())
@@ -169,4 +156,14 @@ $("#makinChanges").click(() => {
         })
 });
 
-fetch(`https://changeable-cyan-horesradish.glitch.me/books/${movie.id}`, deletedOptions)
+
+
+function downLoad(){
+    if (document.all){
+        document.all["layer1"].style.visibility="hidden";
+        document.all["layer2"].style.visibility="visible";
+    } else if (document.getElementById){
+        node = document.getElementById("layer1").style.visibility='hidden';
+        node = document.getElementById("layer2").style.visibility='visible';
+    }
+}
