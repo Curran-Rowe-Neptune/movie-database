@@ -1,6 +1,6 @@
 'use strict';
 
-// Loading function
+// Loading Function
 
 function downLoad(){
     if (document.all){
@@ -16,6 +16,7 @@ $(document).ready(function(){
     $('#loading').toggleClass('hidden');
 });
 
+// Ajax request,
 
 let getOptions = {
     method: 'GET',
@@ -23,7 +24,8 @@ let getOptions = {
         'Content-Type': 'application/json',
     }
 };
-// Ajax request, gives each movie a container, and contains the delete button
+
+// gives each movie a container,
 
 function getMovies(){
     document.getElementById('container').innerHTML = '';
@@ -33,18 +35,31 @@ function getMovies(){
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="deleteMovie-${movie.id}" onmouseenter="idFinder(this.id)">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="deleteMovies" data-id="${movie.id}" onmouseenter="idFinder(this.id)">Delete</button></div>`;
+
                 $('#container').append(htmlStr);
             }
+            // $(`#deleteMovie-${number}`).click(function () {
+            $(`.deleteMovies`).click(function(e) {
+                console.log($(e.target).data("id"))
+                let ID = $(e.target).data("id")
+                fetch(`https://changeable-cyan-horesradish.glitch.me/movies/${ID}`, deleteOptions).then(getMovies)
+            });
+            // and contains the delete button^
+            let deleteOptions = {
+                method: 'DELETE',
+                headers: {
+                    'Content_Type': 'application/json',
+                },
+            };
             dropDown(movies);
         });
-}
-// Main Display
+    }
+// Browser Display
 
 getMovies();
 
-
-// Search Bar
+// Search Bar, finds your movie using the api key
 
 $('#sniff').click(function(){
         fetch("https://www.omdbapi.com/?t=" + $('#movieSearch').val() + "&apikey=" + OMDb_API_TOKEN + "")
@@ -56,6 +71,8 @@ $('#sniff').click(function(){
 });
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName('close')[0];
+
+// Allows you to make edits to a movie in the browser
 
 $('#selector').on('change', function(){
     modal.style.display = 'block';
@@ -91,7 +108,6 @@ $('#selector').on('change', function(){
     html += "</div>";
     $('#modalHeader').html("Update your Movie")
     $('#addMovie').html(html);
-
 });
 
     function getData(){
@@ -146,7 +162,7 @@ $('#updateDB').click(function(){
 });
 
 }
-// Dropdown Menu, edit movie WIP
+// Dropdown Menu
 
 function dropDown(x) {
     for (var p = 0; p < x.length; p++){
@@ -158,14 +174,15 @@ function dropDown(x) {
 
 
 
- // Delete button request
+ // Delete button request, WIP
 var buttonID = "";
 var number;
 function idFinder(x){
     buttonID = x;
     var buttonSplitter = buttonID.split('-');
     number = buttonSplitter[1].toString();
-
+    // console.log(number)
+return(number)
 }
 
 // let deleteOptions = {
@@ -174,31 +191,34 @@ function idFinder(x){
 //         'Content-Type': 'application/json'
 //     }
 // }
-
+//
 // $(`#${buttonID}`).click(function() {
 //     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
 // });
 
 
- $('#' + buttonID).click(deleteMovie);
-     // fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
-     // return document.getElementsByTagName("button")
-     // return $(this).attr('id')
+ // $('#' + buttonID).click(deleteMovie);
+ //     fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
+ //     return document.getElementsByTagName("button")
+ //     return $(this).attr('id')
  // });
 
-     //DELETE MOVIE FUNCTION WIP
-     var deleteMovie = id => fetch("https://https://changeable-cyan-horesradish.glitch.me/movies/" + number + "", {
-         method: 'DELETE',
-         headers: {
-             'Content-type': 'application/json'
-         },
-     })
-         .then(res => res.json())
-         .then(() => {
-             console.log(`Success: deleted movie with id of ${id}`)
-         })
-         .catch(console.error)
-
-
-
-// ??
+//  DELETE MOVIE FUNCTION, WIP
+//      var deleteMovie = id => fetch("https://https://changeable-cyan-horesradish.glitch.me/movies/" + id + "", {
+//          method: 'DELETE',
+//          headers: {
+//              'Content-type': 'application/json'
+//          },
+//      })
+//          .then(res => res.json())
+//          .then(() => {
+//              console.log(`Success: deleted movie with id of ${id}`)
+//          })
+//          .catch(console.error)
+//
+// $('Button').click(function() {
+//     $(this).parent('#moviesContainer').remove();
+//     let movieId = $('#' + number).text();
+//     console.log(movieId);
+//     deleteMovie(movieId).then(console.log);
+// })
