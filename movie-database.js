@@ -28,6 +28,7 @@ let getOptions = {
 // gives each movie a container,
 
 function getMovies(){
+    movieData = []
     document.getElementById('container').innerHTML = '';
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
         .then(resp => resp.json())
@@ -60,8 +61,9 @@ function getMovies(){
 getMovies();
 
 // Search Bar, finds your movie using the api key
-
+var movieData = []
 $('#sniff').click(function(){
+    movieData = [];
         fetch("https://www.omdbapi.com/?t=" + $('#movieSearch').val() + "&apikey=" + OMDb_API_TOKEN + "")
             .then(resp => resp.json())
             .then(data => movieData.push(data));
@@ -148,6 +150,8 @@ let newMovie = {
     'year': movieData[0].Year
 };
 
+ // Post Request Syntax
+
 let postOptions = {
     method: 'POST',
     headers: {
@@ -155,6 +159,9 @@ let postOptions = {
     },
     body: JSON.stringify(newMovie)
 }
+
+// Ajax
+
 $('#updateDB').click(function(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies/", postOptions)
         .then(getMovies)
@@ -174,7 +181,7 @@ function dropDown(x) {
 
 
 
- // Delete button request, WIP
+  //TODO Delete button request idFinder, come back and work on mouseover
 var buttonID = "";
 var number;
 function idFinder(x){
@@ -185,40 +192,3 @@ function idFinder(x){
 return(number)
 }
 
-// let deleteOptions = {
-//     method: 'DELETE',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     }
-// }
-//
-// $(`#${buttonID}`).click(function() {
-//     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
-// });
-
-
- // $('#' + buttonID).click(deleteMovie);
- //     fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
- //     return document.getElementsByTagName("button")
- //     return $(this).attr('id')
- // });
-
-//  DELETE MOVIE FUNCTION, WIP
-//      var deleteMovie = id => fetch("https://https://changeable-cyan-horesradish.glitch.me/movies/" + id + "", {
-//          method: 'DELETE',
-//          headers: {
-//              'Content-type': 'application/json'
-//          },
-//      })
-//          .then(res => res.json())
-//          .then(() => {
-//              console.log(`Success: deleted movie with id of ${id}`)
-//          })
-//          .catch(console.error)
-//
-// $('Button').click(function() {
-//     $(this).parent('#moviesContainer').remove();
-//     let movieId = $('#' + number).text();
-//     console.log(movieId);
-//     deleteMovie(movieId).then(console.log);
-// })
