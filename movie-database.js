@@ -167,20 +167,37 @@ function idFinder(x){
 
 }
 
-let deleteOptions = {
-    method: 'DELETE',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-}
+// let deleteOptions = {
+//     method: 'DELETE',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     }
+// }
 
 // $(`#${buttonID}`).click(function() {
 //     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}, deleteOptions`).then(getMovies)
 // });
 
 
- $(`"#${buttonID}"`).click(function(){
-     fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
+ $(`#${buttonID}`).click(deleteMovie())
+     // fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
      // return document.getElementsByTagName("button")
      // return $(this).attr('id')
-});
+ // });
+
+     //DELETE MOVIE FUNCTION WIP
+     var deleteMovie = id => fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}`, {
+         method: 'DELETE',
+         headers: {
+             'Content-type': 'application/json'
+         },
+     })
+         .then(res => res.json())
+         .then(() => {
+             console.log(`Success: deleted movie with id of ${id}`)
+         })
+         .catch(console.error)
+
+
+
+// ??
