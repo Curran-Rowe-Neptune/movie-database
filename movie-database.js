@@ -7,6 +7,7 @@ function downLoad(){
         document.all["layer1"].style.visibility="hidden";
         document.all["layer2"].style.visibility="visible";
     } else if (document.getElementById){
+        let node;
         node = document.getElementById("layer1").style.visibility='hidden';
         node = document.getElementById("layer2").style.visibility='visible';
     }
@@ -179,14 +180,14 @@ function idFinder(x){
 // });
 
 
- $(`#${buttonID}`).click(deleteMovie())
+ $('#' + buttonID).click(deleteMovie);
      // fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
      // return document.getElementsByTagName("button")
      // return $(this).attr('id')
  // });
 
      //DELETE MOVIE FUNCTION WIP
-     var deleteMovie = id => fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}`, {
+     var deleteMovie = id => fetch("https://https://changeable-cyan-horesradish.glitch.me/movies/" + number + "", {
          method: 'DELETE',
          headers: {
              'Content-type': 'application/json'
