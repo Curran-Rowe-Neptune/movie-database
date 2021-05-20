@@ -1,3 +1,21 @@
+'use strict';
+
+// Loading function
+
+function downLoad(){
+    if (document.all){
+        document.all["layer1"].style.visibility="hidden";
+        document.all["layer2"].style.visibility="visible";
+    } else if (document.getElementById){
+        node = document.getElementById("layer1").style.visibility='hidden';
+        node = document.getElementById("layer2").style.visibility='visible';
+    }
+}
+$(document).ready(function(){
+    $('#loading').toggleClass('hidden');
+});
+
+
 let getOptions = {
     method: 'GET',
     headers: {
@@ -28,7 +46,6 @@ getMovies();
 // Search Bar
 
 $('#sniff').click(function(){
-    movieData = [];
         fetch("https://www.omdbapi.com/?t=" + $('#movieSearch').val() + "&apikey=" + OMDb_API_TOKEN + "")
             .then(resp => resp.json())
             .then(data => movieData.push(data));
@@ -50,31 +67,30 @@ $('#selector').on('change', function(){
         }
     }
     var html = "<div>";
-    html += "<h1>Update your movie.</h1>";
     html += "<form>";
     html += "<label for='newTitle'>Edit/Add Title:</label>"
-    html += "<input id='newTitle' type='text' placeholder='Rename that movie'>";
+    html += "<input id='newTitle' type='text' placeholder='Rename that movie'><br>";
     html += "<label for='newRating'>Edit/Add Rating</label>"
-    html += "<input id='newRating' type='text' placeholder='1 to 5 Stars'>";
+    html += "<input id='newRating' type='text' placeholder='1 to 5 Stars'><br>";
     html += "<label for='newRated'>Edit/Add Rating</label>"
-    html += "<input id='newRated' type='text' placeholder='R, PG-13, ect... '>";
+    html += "<input id='newRated' type='text' placeholder='R, PG-13, ect... '><br>";
     html += "<label for='newRuntime'>Edit/Add Runtime</label>"
-    html += "<input type='text' id='newRuntime' placeholder='Total minutes'>";
+    html += "<input type='text' id='newRuntime' placeholder='Total minutes'><br>";
     html += "<label for='newCast'>Edit/Add Actors</label>"
-    html += "<input id='newCast' type='text' placeholder='First and Last Name'>";
+    html += "<input id='newCast' type='text' placeholder='First and Last Name'><br>";
     html += "<label for='newPlot'>Edit/Add Plot</label>"
-    html += "<input type='text' id='newPlot' placeholder='What your take is'>";
+    html += "<input type='text' id='newPlot' placeholder='What your take is'><br>";
     html += "<label for='newDirector'>Edit/Add Director</label>"
-    html += "<input type='text' id='newDirector' placeholder='First and Last name'>";
+    html += "<input type='text' id='newDirector' placeholder='First and Last name'><br>";
     html += "<label for='newGenre'>Edit/Add Genre</label>"
-    html += "<input type='text' id='newGenre' placeholder='Your Genre'>";
+    html += "<input type='text' id='newGenre' placeholder='Your Genre'><br>";
     html += "<label for='newYear'>Edit/Add Year</label>"
     html += "<input type='text' id='newYear' placeholder='Enter a Year'>";
     html += "</form>"
     html += "</div>";
-    $('#sniff').click(function (){
+    $('#modalHeader').html("Update your Movie")
     $('#addMovie').html(html);
-    });
+
 });
 
     function getData(){
@@ -139,20 +155,6 @@ function dropDown(x) {
     document.getElementById('selector').innerHTML =  `<label for='movieSelector'></label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
 }
 
-// Loading function
-
-function downLoad(){
-    if (document.all){
-        document.all["layer1"].style.visibility="hidden";
-        document.all["layer2"].style.visibility="visible";
-    } else if (document.getElementById){
-        node = document.getElementById("layer1").style.visibility='hidden';
-        node = document.getElementById("layer2").style.visibility='visible';
-    }
-}
-$(document).ready(function(){
-    $('#loading').toggleClass('hidden');
-});
 
 
  // Delete button request
@@ -177,8 +179,8 @@ let deleteOptions = {
 // });
 
 
- $(`#${buttonID}`).click(function(){
-     fetch(`https://https://changeable-cyan-horesradish.glitch.me/movies/${number}`, deleteOptions).then(getMovies)
+ $(`"#${buttonID}"`).click(function(){
+     fetch(`"https://https://changeable-cyan-horesradish.glitch.me/movies/${number}"`, deleteOptions).then(getMovies)
      // return document.getElementsByTagName("button")
      // return $(this).attr('id')
 });
