@@ -28,7 +28,7 @@ let getOptions = {
 // gives each movie a container,
 
 function getMovies(){
-    movieData = []
+    // movieData = []
     document.getElementById('container').innerHTML = '';
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", getOptions)
         .then(resp => resp.json())
@@ -36,7 +36,8 @@ function getMovies(){
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="please">Update</button><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="updating" data-id="${movie.id}">Update</button><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
+
 
                 $('#container').append(htmlStr);
             }
@@ -53,9 +54,32 @@ function getMovies(){
                     'Content_Type': 'application/json',
                 },
             };
-            // dropDown(movies);
-        });
-    }
+            $('.updating').click(function(e) {
+                let ID = $(e.target).data("id");
+                updater();
+                $('#updateDB').click(function(){
+                fetch(`https://changeable-cyan-horesradish.glitch.me/movies/${ID}`, patchOptions).then(getMovies)
+                });
+            });
+            let patchThis = {
+                'title': $('#patchTitle').val(),
+                'rating': $('#patchRating').val(),
+                'rated': $('#patchRated').val(),
+                'actors': $('#patchCast').val(),
+                'plot': $('#patchPlot').val(),
+                'director': $('#patchDirector').val(),
+                'genre': $('#patchGenre').val(),
+                'year': $('#patchYear').val()
+            }
+                let patchOptions = {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(patchThis)
+                }
+            })
+        }
 // Browser Display
 
 getMovies();
@@ -141,7 +165,7 @@ $('#updateDB').click(function(){
 //     }
 //     document.getElementById('selector').innerHTML = `<label for='movieSelector'>Select a Movie to Edit</label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
 // }
-    $('#please').click(function() {
+function updater (){
         modal.style.display = "block";
         span.onclick = function () {
             modal.style.display = "none";
@@ -151,36 +175,28 @@ $('#updateDB').click(function(){
                 modal.style.display = "none";
             }
         }
-        var html = "<div class='d-flex justify-content-between align-item-center' id='updateChecks'>";
-        html += "<label for='checkTitle'>Title</label>"
-        html += "<input type='checkbox' value='title' id='checkTitle' class='updates'>";
-        html += "<label for='checkPoster'>Poster</label>"
-        html += "<input id='checkPoster' value='poster' type='checkbox' class='updates'>";
-        html += "<label for='checkRated'>MPAA Rating</label>"
-        html += "<input id='checkRated' value='rating' type='checkbox' class='updates'>";
-        html += "<label for='checkedRun'>Runtime</label>"
-        html += "<input id='checkedRun' value='runtime' type='checkbox' class='updates'>";
-        html += "<label for='checkedActor'>Actors</label>"
-        html += "<input id='checkedActor' value='actors' type='checkbox' class='updates'>";
-        html += "<label for='checkedPlot'>Plot</label>"
-        html += "<input id='checkedPlot' value='plot' type='checkbox' class='updates'>";
-        html += "<label for='checkedDirector'>Director</label>"
-        html += "<input id='checkedDirector' value='director' type='checkbox' class='updates'>";
-        html += "<label for='checkedGenre'>Genre</label>"
-        html += "<input id='checkedGenre' value='genre' type='checkbox' class='updates'>";
-        html += "<label for='checkedYear'>Year</label>"
-        html += "<input id='checkedYear' value='year' type='checkbox' class='updates'>";
-        html += "<button type='button' id='updateMovieBtn'>Select</button>";
-        html += "</form>";
-        html += "</div>";
+        var html = "<div class='d-flex justify-content-between align-item-center' id='patches'>";
+            html += `<label for='patchTitle'>Title:</label>`;
+            html += `<input type='text' id='patchTitle'>`;
+            html += `<label for='patchRating'>Rating:</label>`;
+            html += `<input type='text' id='patchRating'>`;
+            html += `<label for='patchRated'>Rated:</label>`;
+            html += `<input type='text' id='patchRated'>`;
+            html += `<label for='patchCast'>Cast:</label>`;
+            html += `<input type='text' id='patchCast'>`;
+            html += `<label for='patchPlot'>Plot:</label>`;
+            html += `<input type='text' id='patchPlot'>`;
+            html += `<label for='patchDirector'>Director:</label>`;
+            html += `<input type='text' id='patchDirector'>`;
+            html += `<label for='patchGenre'>Genre:</label>`;
+            html += `<input type='text' id='patchGenre'>`;
+            html += `<label for='patchYear'>Year:</label>`;
+            html += `<input type='text' id='patchYear'>`;
+            html += `</div>`;
         $('#addMovie').html(html);
         $('#modalHeader').html("What would you like to update?")
-    });
-        $('#updateMovieBtn').click(function () {
-            selectedUpdates.push($('.updates:checkbox:checked'));
-            modal.style.display = 'none';
-        });
-// $('#updateMovieBtn').click();
+    }
+
 
 
 // Add full custom button
