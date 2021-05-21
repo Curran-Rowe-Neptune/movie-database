@@ -35,8 +35,8 @@ function getMovies(){
         .then(movies => {
 
             for(let movie of movies){
-
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="updating" data-id="${movie.id}">Update</button><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
+// removed .toUpperCase for testing (movie.title.toUppercase)
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i><p>Rated: ${movie.rated}</p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="updating" data-id="${movie.id}">Update</button><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
 
 
                 $('#container').append(htmlStr);
@@ -54,37 +54,41 @@ function getMovies(){
                     'Content_Type': 'application/json',
                 },
             };
-            $('.updating').click(function(e) {
+            $('.updating').click(function(e) { //WIP
                 var ID = $(e.target).data("id");
                 updater();
                 $('#updateDB').click(function(){
                 fetch(`https://changeable-cyan-horesradish.glitch.me/movies/${ID}`, patchOptions).then(getMovies)
+                    modal.style.display = 'none';
                 });
             });
-            let patchThis = {
-                'title': $('#patchTitle').val(),
-                'rating': $('#patchRating').val(),
-                'rated': $('#patchRated').val(),
-                'actors': $('#patchCast').val(),
-                'plot': $('#patchPlot').val(),
-                'director': $('#patchDirector').val(),
-                'genre': $('#patchGenre').val(),
-                'year': $('#patchYear').val()
-            }
-                let patchOptions = {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: JSON.stringify(patchThis)
-                }
-            })
+var patchThis = {
+    'title': $('#patchTitle').val(),
+    'rating': $('#patchRating').val(),
+    'rated': $('#patchRated').val(),
+    'actors': $('#patchCast').val(),
+    'plot': $('#patchPlot').val(),
+    'director': $('#patchDirector').val(),
+    'genre': $('#patchGenre').val(),
+    'year': $('#patchYear').val()
+}
+            console.log(patchThis)
+    let patchOptions = {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json',
+        },
+            body: JSON.stringify(patchThis)
         }
+    });
+}
+
 // Browser Display
 
 getMovies();
 
 // Search Bar, finds your movie using the api key
+
 var movieData = []
 $('#sniff').click(function(){
     movieData = [];
@@ -98,7 +102,8 @@ $('#sniff').click(function(){
 var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName('close')[0];
 
-// Allows you to make edits to a movie in the browser
+// Allows you to make edits to a movie in the browser < no its not
+
     function getData(){
     modal.style.display = "block";
     span.onclick = function (){
@@ -112,6 +117,7 @@ var span = document.getElementsByClassName('close')[0];
     var html = "<div>";
     html += "<h1>"+ movieData[0].Title + "</h1>";
     html += "<img src="+ movieData[0].Poster + ">";
+    html += "<p>Rating: " + movieData[0].imdbRating + "</p>";
     html += "<p>Rated: " + movieData[0].Rated + "</p>";
     html += "<p>Run time: " + movieData[0].Runtime + "</p>";
     html += "<p>Cast: " + movieData[0].Actors + "</p>";
@@ -128,7 +134,8 @@ var span = document.getElementsByClassName('close')[0];
 let newMovie = {
     'title': movieData[0].Title,
     'poster': movieData[0].Poster,
-    'rating': movieData[0].Rated,
+    'rating': movieData[0].imdbRating,
+    'rated': movieData[0].Rated,
     'actors': movieData[0].Actors,
     'plot': movieData[0].Plot,
     'director': movieData[0].Director,
@@ -165,7 +172,9 @@ $('#updateDB').click(function(){
 //     }
 //     document.getElementById('selector').innerHTML = `<label for='movieSelector'>Select a Movie to Edit</label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
 // }
-function updater (){
+
+
+function updater (){ //WIP
         modal.style.display = "block";
         span.onclick = function () {
             modal.style.display = "none";
@@ -175,31 +184,33 @@ function updater (){
                 modal.style.display = "none";
             }
         }
-        var html = "<div class='d-flex justify-content-between align-item-center' id='patches'>";
-            html += `<label for='patchTitle'>Title:</label>`;
-            html += `<input type='text' id='patchTitle'>`;
-            html += `<label for='patchRating'>Rating:</label>`;
-            html += `<input type='text' id='patchRating'>`;
-            html += `<label for='patchRated'>Rated:</label>`;
-            html += `<input type='text' id='patchRated'>`;
-            html += `<label for='patchCast'>Cast:</label>`;
-            html += `<input type='text' id='patchCast'>`;
-            html += `<label for='patchPlot'>Plot:</label>`;
-            html += `<input type='text' id='patchPlot'>`;
-            html += `<label for='patchDirector'>Director:</label>`;
-            html += `<input type='text' id='patchDirector'>`;
-            html += `<label for='patchGenre'>Genre:</label>`;
-            html += `<input type='text' id='patchGenre'>`;
-            html += `<label for='patchYear'>Year:</label>`;
-            html += `<input type='text' id='patchYear'>`;
-            html += `</div>`;
+        var html =  "<div class='d-flex justify-content-between align-item-center' id='patches'>";
+            html += "<form>";
+            html += "<label for='patchTitle'>Title:</label>";
+            html += "<input type='text' id='patchTitle' value='$'><br>";
+            html += "<label for='patchRating'>Rating:</label>";
+            html += "<input type='text' id='patchRating'><br>";
+            html += "<label for='patchRated'>Rated:</label>";
+            html += "<input type='text' id='patchRated'><br>";
+            html += "<label for='patchCast'>Cast:</label>";
+            html += "<input type='text' id='patchCast'><br>";
+            html += "<label for='patchPlot'>Plot:</label>";
+            html += "<input type='text' id='patchPlot'><br>";
+            html += "<label for='patchDirector'>Director:</label>";
+            html += "<input type='text' id='patchDirector'><br>";
+            html += "<label for='patchGenre'>Genre:</label>";
+            html += "<input type='text' id='patchGenre'><br>";
+            html += "<label for='patchYear'>Year:</label>";
+            html += "<input type='text' id='patchYear'>";
+            html += "</form>";
+            html += "</div>";
         $('#addMovie').html(html);
         $('#modalHeader').html("What would you like to update?")
     }
 
 
-
 // Add full custom button
+
 $('#addYourMovie').click(function(){
     modal.style.display = 'block';
     span.onclick = function(){
