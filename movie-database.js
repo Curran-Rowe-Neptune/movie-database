@@ -55,7 +55,7 @@ function getMovies(){
                 },
             };
             $('.updating').click(function(e) {
-                let ID = $(e.target).data("id");
+                var ID = $(e.target).data("id");
                 updater();
                 $('#updateDB').click(function(){
                 fetch(`https://changeable-cyan-horesradish.glitch.me/movies/${ID}`, patchOptions).then(getMovies)
