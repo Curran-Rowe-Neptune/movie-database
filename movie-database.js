@@ -36,7 +36,7 @@ function getMovies(){
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" id="please">Update</button><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
 
                 $('#container').append(htmlStr);
             }
@@ -53,7 +53,7 @@ function getMovies(){
                     'Content_Type': 'application/json',
                 },
             };
-            dropDown(movies);
+            // dropDown(movies);
         });
     }
 // Browser Display
@@ -128,19 +128,20 @@ $('#updateDB').click(function(){
     fetch("https://changeable-cyan-horesradish.glitch.me/movies", postOptions)
         .then(getMovies)
         modal.style.display = 'none';
+
 });
 
 }
 // Dropdown Menu
-var selectedUpdates = [];
-function dropDown(x) {
-    for (var p = 0; p < x.length; p++) {
-        var HTML;
-        HTML += `<option>${x[p].title.toUpperCase()}</option>`;
-    }
-    document.getElementById('selector').innerHTML = `<label for='movieSelector'>Select a Movie to Edit</label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select><button type="button" id="clickable">Submit</button>`;
-}
-    $('#clickable').click(function () {
+// var HTML;
+// var selectedUpdates = [];
+// function dropDown(x) {
+//     for (var p = 0; p < x.length; p++) {
+//         HTML += `<option>${x[p].title.toUpperCase()}</option>`;
+//     }
+//     document.getElementById('selector').innerHTML = `<label for='movieSelector'>Select a Movie to Edit</label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
+// }
+    $('#please').click(function() {
         modal.style.display = "block";
         span.onclick = function () {
             modal.style.display = "none";
@@ -174,13 +175,13 @@ function dropDown(x) {
         html += "</div>";
         $('#addMovie').html(html);
         $('#modalHeader').html("What would you like to update?")
-
+    });
         $('#updateMovieBtn').click(function () {
             selectedUpdates.push($('.updates:checkbox:checked'));
             modal.style.display = 'none';
         });
 // $('#updateMovieBtn').click();
-    });
+
 
 // Add full custom button
 $('#addYourMovie').click(function(){
