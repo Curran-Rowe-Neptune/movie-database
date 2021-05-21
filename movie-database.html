@@ -15,22 +15,14 @@
 </div>
 <div id="layer2" class="layer2_class"></div>
 </div>
-<div class="jumbotron jumbotron-fluid p-0">
+<div class="jumbotron jumbotron-fluid d-flex p-0">
 	<h1>CRN Movie Db</h1>
-	<div class="d-flex p-0">
-		<label for="movieSearch" class="d-flex align-items-center ml-2">Search for Title</label>
-		<input class="mx-3"  type="text" placeholder="Enter a Title" id="movieSearch">
+	<div class="p-2">
+		<label for="movieSearch" class="align-items-center ml-2">Search for Title</label>
+		<input type="text" placeholder="Enter a Title" id="movieSearch">
 		<button type="button" class='mx-3' id="sniff">Submit</button>
-		<div class="nav-item dropdown">
-]				<button type="button" class ="nav-link dropdown-toggle" id="appendMovie" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Movie</button>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<input type="text" class="dropdown-item" href="#">Title
-					<input type="text" class="dropdown-item" href="#">Another action
-					<input type="text" class="dropdown-item" href="#">Something else here
-				</div>
-=
-		</div>
-		<div id="selector"></div>
+		<button type="button" class="mx-3" id="addYourMovie">Add Movie</button>
+		<div class='mx-3' id="selector"></div>
 	</div>
 
 </div>
@@ -49,30 +41,7 @@
 		</div>
 	</div>
 </div>
-<!--<div id="myModal2" class="modal">-->
-<!--	<div class="modal-content">-->
-<!--		<div class="modal-header">-->
-<!--			<h2>Editor</h2>-->
-<!--			<span class="close">&times;</span>-->
-<!--		</div>-->
-<!--		<div class="modal-body">-->
-<!--			<form>-->
-<!--				<label for="changeTitle">Title:</label>-->
-<!--				<input type="text" id="changeTitle" placeholder="What would YOU like this movie to be titled?">-->
-<!--				<label for="changeRating">Star rating:</label>-->
-<!--				<input type="text" id="changeRating" placeholder="Star rating 1-5">-->
-<!--				<label for="changeRated">Add movie rating</label>-->
-<!--				<input type="text" id="changeRated" placeholder="Ie... PG-13">-->
-<!--				<label for="changeCast">Change the cast</label>-->
-<!--				<input type="text" id="changeCast">-->
-<!--			</form>-->
-<!--		</div>-->
-<!--		<div class="modal-footer">-->
-<!--			<button type="button" id="makinChanges">Submit</button>-->
-<!--		</div>-->
-<!--		-->
-<!--	</div>-->
-<!--</div>-->
+
 
 <main id="container" class="container d-flex flex-row row"></main>
 <script src="keys.js"></script>

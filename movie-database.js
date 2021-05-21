@@ -36,7 +36,7 @@ function getMovies(){
 
             for(let movie of movies){
 
-               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="deleteMovies" data-id="${movie.id}" onmouseenter="idFinder(this.id)">Delete</button></div>`;
+               let htmlStr = `<div id="moviesContainer" class="d-flex flex-column col-4"><h1 class="d-flex">${movie.title.toUpperCase()}</h1><img class="d-flex" src="${movie.poster}"><p>Rating: ${movie.rating}<i class="fa fa-star"></i></p><p><strong>Cast:</strong> ${movie.actors}</p><p><strong>Plot:</strong> ${movie.plot}</p><p><strong>Director:</strong> ${movie.director}</p><p><strong>Genre:</strong> ${movie.genre}</p><p><strong>Year Released:</strong> ${movie.year}</p><button type="button" class="deleteMovies" data-id="${movie.id}">Delete</button></div>`;
 
                 $('#container').append(htmlStr);
             }
@@ -75,50 +75,13 @@ var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName('close')[0];
 
 // Allows you to make edits to a movie in the browser
-
-$('#selector').on('change', function(){
-    modal.style.display = 'block';
-    span.onclick = function(){
-        modal.style.display = 'none';
-    }
-    window.onclick = function() {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-    var html = "<div>";
-    html += "<form>";
-    html += "<label for='newTitle'>Edit/Add Title:</label>"
-    html += "<input id='newTitle' type='text' placeholder='Rename that movie'><br>";
-    html += "<label for='newRating'>Edit/Add Rating</label>"
-    html += "<input id='newRating' type='text' placeholder='1 to 5 Stars'><br>";
-    html += "<label for='newRated'>Edit/Add Rating</label>"
-    html += "<input id='newRated' type='text' placeholder='R, PG-13, ect... '><br>";
-    html += "<label for='newRuntime'>Edit/Add Runtime</label>"
-    html += "<input type='text' id='newRuntime' placeholder='Total minutes'><br>";
-    html += "<label for='newCast'>Edit/Add Actors</label>"
-    html += "<input id='newCast' type='text' placeholder='First and Last Name'><br>";
-    html += "<label for='newPlot'>Edit/Add Plot</label>"
-    html += "<input type='text' id='newPlot' placeholder='What your take is'><br>";
-    html += "<label for='newDirector'>Edit/Add Director</label>"
-    html += "<input type='text' id='newDirector' placeholder='First and Last name'><br>";
-    html += "<label for='newGenre'>Edit/Add Genre</label>"
-    html += "<input type='text' id='newGenre' placeholder='Your Genre'><br>";
-    html += "<label for='newYear'>Edit/Add Year</label>"
-    html += "<input type='text' id='newYear' placeholder='Enter a Year'>";
-    html += "</form>"
-    html += "</div>";
-    $('#modalHeader').html("Update your Movie")
-    $('#addMovie').html(html);
-});
-
     function getData(){
     modal.style.display = "block";
     span.onclick = function (){
         modal.style.display = "none";
     }
     window.onclick = function (event){
-        if(event.target == modal){
+        if(event.target === modal){
             modal.style.display = "none";
         }
     }
@@ -135,7 +98,6 @@ $('#selector').on('change', function(){
     html += "</div>";
     $('#addMovie').html(html);
     $('#movieSearch').val('');
-    // movieData = [];
 
         // POST, add new movie
 
@@ -163,32 +125,136 @@ let postOptions = {
 // Ajax
 
 $('#updateDB').click(function(){
-    fetch("https://changeable-cyan-horesradish.glitch.me/movies/", postOptions)
+    fetch("https://changeable-cyan-horesradish.glitch.me/movies", postOptions)
         .then(getMovies)
         modal.style.display = 'none';
 });
 
 }
 // Dropdown Menu
-
+var selectedUpdates = [];
 function dropDown(x) {
-    for (var p = 0; p < x.length; p++){
+    for (var p = 0; p < x.length; p++) {
         var HTML;
         HTML += `<option>${x[p].title.toUpperCase()}</option>`;
+    }
+    document.getElementById('selector').innerHTML = `<label for='movieSelector'>Select a Movie to Edit</label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select><button type="button" id="clickable">Submit</button>`;
 }
-    document.getElementById('selector').innerHTML =  `<label for='movieSelector'></label><select class='d=flex align-items-center ml-3' id='movieSelector'>${HTML}</select>`;
-}
+    $('#clickable').click(function () {
+        modal.style.display = "block";
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+        var html = "<div class='d-flex justify-content-between align-item-center' id='updateChecks'>";
+        html += "<label for='checkTitle'>Title</label>"
+        html += "<input type='checkbox' value='title' id='checkTitle' class='updates'>";
+        html += "<label for='checkPoster'>Poster</label>"
+        html += "<input id='checkPoster' value='poster' type='checkbox' class='updates'>";
+        html += "<label for='checkRated'>MPAA Rating</label>"
+        html += "<input id='checkRated' value='rating' type='checkbox' class='updates'>";
+        html += "<label for='checkedRun'>Runtime</label>"
+        html += "<input id='checkedRun' value='runtime' type='checkbox' class='updates'>";
+        html += "<label for='checkedActor'>Actors</label>"
+        html += "<input id='checkedActor' value='actors' type='checkbox' class='updates'>";
+        html += "<label for='checkedPlot'>Plot</label>"
+        html += "<input id='checkedPlot' value='plot' type='checkbox' class='updates'>";
+        html += "<label for='checkedDirector'>Director</label>"
+        html += "<input id='checkedDirector' value='director' type='checkbox' class='updates'>";
+        html += "<label for='checkedGenre'>Genre</label>"
+        html += "<input id='checkedGenre' value='genre' type='checkbox' class='updates'>";
+        html += "<label for='checkedYear'>Year</label>"
+        html += "<input id='checkedYear' value='year' type='checkbox' class='updates'>";
+        html += "<button type='button' id='updateMovieBtn'>Select</button>";
+        html += "</form>";
+        html += "</div>";
+        $('#addMovie').html(html);
+        $('#modalHeader').html("What would you like to update?")
 
+        $('#updateMovieBtn').click(function () {
+            selectedUpdates.push($('.updates:checkbox:checked'));
+            modal.style.display = 'none';
+        });
+// $('#updateMovieBtn').click();
+    });
 
+// Add full custom button
+$('#addYourMovie').click(function(){
+    modal.style.display = 'block';
+    span.onclick = function(){
+        modal.style.display = 'none';
+    }
+    window.onclick = function() {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+    var html = "<div>";
+    html += "<form>";
+    html += "<label for='newTitle'>Add Title:</label>"
+    html += "<input id='newTitle' type='text' placeholder='Title of movie'><br>";
+    html += "<label for='newRating'>Add Rating</label>"
+    html += "<input id='newRating' type='text' placeholder='1 to 5 Stars'><br>";
+    html += "<label for='newRated'>Add Rating</label>"
+    html += "<input id='newRated' type='text' placeholder='R, PG-13, ect... '><br>";
+    html += "<label for='newRuntime'>Add Runtime</label>"
+    html += "<input type='text' id='newRuntime' placeholder='Total minutes'><br>";
+    html += "<label for='newCast'>Add Actors</label>"
+    html += "<input id='newCast' type='text' placeholder='First and Last Name'><br>";
+    html += "<label for='newPlot'>Add Plot</label>"
+    html += "<input type='text' id='newPlot' placeholder='What your take is'><br>";
+    html += "<label for='newDirector'>Add Director</label>"
+    html += "<input type='text' id='newDirector' placeholder='First and Last name'><br>";
+    html += "<label for='newGenre'>Add Genre</label>"
+    html += "<input type='text' id='newGenre' placeholder='Your Genre'><br>";
+    html += "<label for='newYear'>Add Year</label>"
+    html += "<input type='text' id='newYear' placeholder='Enter a Year'>";
+    html += "<button type='button' id='addToDb'>Add</button>";
+    html += "</form>";
+    html += "</div>";
+    $('#modalHeader').html("Add Your Movie")
+    $('#addMovie').html(html);
+
+    //Add a movie
+
+    $('#updateDB').click(function(){
+        var userMovie = {
+            'title': $('#newTitle').val(),
+            'rating': $('#newRating').val(),
+            'rated': $('#newRated').val(),
+            'actors': $('#newCast').val(),
+            'plot': $('#newPlot').val(),
+            'director': $('#newDirector').val(),
+            'genre': $('#newGenre').val(),
+            'year': $('#newYear').val()
+        }
+        let postOptions = {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(userMovie)
+        }
+        fetch("https://changeable-cyan-horesradish.glitch.me/movies", postOptions)
+            .then(getMovies)
+        modal.style.display = 'none';
+    });
+
+});
 
   //TODO Delete button request idFinder, come back and work on mouseover
-var buttonID = "";
-var number;
-function idFinder(x){
-    buttonID = x;
-    var buttonSplitter = buttonID.split('-');
-    number = buttonSplitter[1].toString();
-    // console.log(number)
-return(number)
-}
+//onmouseenter="idFinder(this.id)//
+// var buttonID = "";
+// var number;
+// function idFinder(x){
+//     buttonID = x;
+//     var buttonSplitter = buttonID.split('-');
+//     number = buttonSplitter[1].toString();
+//     // console.log(number)
+// return(number)
+
 

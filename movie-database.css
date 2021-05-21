@@ -15,6 +15,9 @@ button{
     position: center;
     margin: auto;
 }
+.jumbotron{
+    justify-content: space-evenly;
+}
 
 p{
     width: 250px;
